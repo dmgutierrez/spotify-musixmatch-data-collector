@@ -1,0 +1,7 @@
+spotipy
+coloredlogs
+pycountry_convert
+pandas
+numpy
+pymongo
+pymusixmatch

@@ -42,7 +42,8 @@ class DataManager:
         values: list = [i + "_thread" for i in keys]
         return dict(zip(keys, values))
 
-    def retrieve_spotify_data_by_countries(self, countries: list, locale: str, categories: list = None, limit: int = 50):
+    def retrieve_spotify_data_by_countries(self, countries: list, locale: str,
+                                           categories: list = None, limit: int = 50):
         try:
             # 1. Retrieve playlists per category and country
             if categories is None:
@@ -153,4 +154,9 @@ class DataManager:
     def check_countries_by_continent(countries: list, continent: str):
         checked_countries: list = [i for i in countries if (i in spotify_markets and
                                                             convert_country_to_continent(i) == continent)]
+        return checked_countries
+
+    @staticmethod
+    def check_countries(countries: list):
+        checked_countries: list = [i for i in countries if i in spotify_markets]
         return checked_countries

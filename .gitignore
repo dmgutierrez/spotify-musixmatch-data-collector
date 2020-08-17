@@ -4,3 +4,5 @@
 .idea/dictionaries/
 
 .idea/
+
+.cache-*.*
