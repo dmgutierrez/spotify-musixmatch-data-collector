@@ -1,5 +1,5 @@
 from musixmatch import Musixmatch
-from helper.settings import logger
+from ..helper.settings import logger
 
 
 class MusixmatchManager:

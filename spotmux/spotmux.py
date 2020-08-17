@@ -1,5 +1,5 @@
-from helper.settings import logger
-from managers.data_manager import DataManager
+from .helper.settings import logger
+from .managers.data_manager import DataManager
 
 
 class SpotMux(object):

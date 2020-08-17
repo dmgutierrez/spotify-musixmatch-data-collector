@@ -1,5 +1,5 @@
 import pycountry_convert as pc
-from helper.settings import logger
+from ..helper.settings import logger
 import os
 
 

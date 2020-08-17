@@ -1,16 +1,16 @@
 import pandas as pd
 import os
 from pymongo.cursor import Cursor
-from models.doument_models import (PlaylistDataDoc)
-from managers.music_manager import MusicManager
-from managers.mongodb_manager import MongoDBManager
-from helper.settings import (logger,
+from ..models.doument_models import PlaylistDataDoc
+from ..managers.music_manager import MusicManager
+from ..managers.mongodb_manager import MongoDBManager
+from ..helper.settings import (logger,
                              db_host, db_port, db_username,
                              db_password, db_name, tracks_collection_name,
                              albums_collection_name, artists_collection_name)
-from helper.thread_utils import generate_batch_thread, start_all_batch_threads, join_threads
-from helper.spotify_markets import spotify_markets
-from helper.utils import prepare_directory, convert_country_to_continent
+from ..helper.thread_utils import generate_batch_thread, start_all_batch_threads, join_threads
+from ..helper.spotify_markets import spotify_markets
+from ..helper.utils import prepare_directory, convert_country_to_continent
 
 
 class DataManager:

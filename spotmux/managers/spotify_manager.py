@@ -8,9 +8,9 @@ Created on Fri Jun 22 19:45:03 2018
 from spotipy import Spotify
 from spotipy.client import SpotifyException
 from spotipy.oauth2 import SpotifyOAuth, SpotifyOauthError
-from models.doument_models import (SpotifyTrackDoc,
+from ..models.doument_models import (SpotifyTrackDoc,
                                    SpotifyAlbumDoc, SpotifyArtistDoc)
-from helper.settings import logger
+from ..helper.settings import logger
 
 
 class SpotifyManager(object):

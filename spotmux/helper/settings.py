@@ -23,20 +23,20 @@ artists_collection_name: str = os.getenv("ARTISTS_COLLECTION_NAME") if "ARTISTS_
 # ================================================================
 # Spotify Params
 sp_client_id: str = os.getenv("SP_CLIENT_ID") if "SP_CLIENT_ID" in os.environ \
-    else "fb8e4a3c95f64f5d846b20b0a5bea074"
+    else "xxxx"
 sp_client_secret: str = os.getenv("SP_CLIENT_SECRET") if "SP_CLIENT_SECRET" in os.environ \
-    else "a8764e5f1d94424e98e335a5816569cd"
+    else "xxxx"
 sp_username = os.getenv("SP_USERNAME") if "SP_USERNAME" in os.environ \
-    else "rockdave"
+    else "xxxx"
 sp_redirect_uri: str = os.getenv("SP_REDIRECT_URI") if "SP_REDIRECT_URI" in os.environ \
-    else "http://127.0.0.1:5005/callback"
+    else "http://localhost:5005/callback"
 sp_scope: str = os.getenv("SP_SCOPE") if "SP_SCOPE" in os.environ \
     else "playlist-modify-private"
 # ================================================================
 #
 
 musixmatch_api_key: str = os.getenv("MUSIXMATCH_API_KEY") if "MUSIXMATCH_API_KEY" in os.environ \
-    else "5cb94e76bddfc2c7d7fce92b2f1a3c14"
+    else "xxxx"
 
 http_response_500: str = "Internal Server Error"
 http_response_200: str = "Successful Operation"

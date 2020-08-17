@@ -1,9 +1,9 @@
-from managers.spotify_manager import SpotifyManager
-from managers.musicmatch_manager import MusixmatchManager
-from helper.settings import (logger, sp_client_id, sp_client_secret,
+from ..managers.spotify_manager import SpotifyManager
+from ..managers.musicmatch_manager import MusixmatchManager
+from ..helper.settings import (logger, sp_client_id, sp_client_secret,
                              sp_redirect_uri, sp_username, sp_scope,
                              musixmatch_api_key)
-from models.doument_models import (PlaylistDataDoc, SpotifyTrackDoc,
+from ..models.doument_models import (PlaylistDataDoc, SpotifyTrackDoc,
                                    SpotifyAlbumDoc)
 from spotipy.oauth2 import SpotifyOauthError
 from collections import defaultdict
@@ -61,8 +61,14 @@ class MusicManager:
                             market=market,
                             category=category)
                     except Exception:
-                        logger.warning('It was not possible to extract the information of the song!')
+                        logger.warning('It was not possible to extract the information of the Track!')
                         continue
+            else:
+                self.spotify_manager.refresh_access_token()
+                playlist_data_doc: PlaylistDataDoc = self.extract_data_from_spotify_playlist(
+                    playlist_id=playlist_id,
+                    market=market,
+                    category=category)
         except Exception as e:
             logger.error(e)
         return playlist_data_doc

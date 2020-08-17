@@ -11,4 +11,6 @@ setup(name=name,
       packages=find_packages(),
       license=license,
       author=author,
-      author_email=author_email)
+      author_email=author_email,
+      python_requires='>=3.6'
+      )

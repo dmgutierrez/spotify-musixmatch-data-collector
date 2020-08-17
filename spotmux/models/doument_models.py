@@ -1,4 +1,4 @@
-from helper.utils import get_regions_by_markets
+from ..helper.utils import get_regions_by_markets
 
 
 class PlaylistDataDoc(object):
