@@ -6,3 +6,9 @@
 .idea/
 
 *.cache-
+
+SpotMux.egg-info/
+
+dist/
+
+build/
