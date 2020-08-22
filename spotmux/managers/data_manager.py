@@ -4,33 +4,31 @@ from pymongo.cursor import Cursor
 from ..models.doument_models import PlaylistDataDoc
 from ..managers.music_manager import MusicManager
 from ..managers.mongodb_manager import MongoDBManager
-from ..helper.settings import (logger,
-                             db_host, db_port, db_username,
-                             db_password, db_name, tracks_collection_name,
-                             albums_collection_name, artists_collection_name)
+from ..helper.settings import logger, default_value
 from ..helper.thread_utils import generate_batch_thread, start_all_batch_threads, join_threads
 from ..helper.spotify_markets import spotify_markets
 from ..helper.utils import prepare_directory, convert_country_to_continent
 
 
-class DataManager:
-    def __init__(self):
-        self.music_manager: MusicManager = MusicManager()
-        self.mongo_manager: MongoDBManager = MongoDBManager(
-            host=db_host,
-            port=db_port,
-            username=db_username,
-            password=db_password,
-            db_name=db_name)
-        self.tracks_collection_name: str = tracks_collection_name
-        self.albums_collection_name: str = albums_collection_name
-        self.artists_collection_name: str = artists_collection_name
+class DataManager(object):
+    def __init__(self, mongodb_params: dict, music_manager_params: dict):
+        self.music_manager: MusicManager = MusicManager(
+            music_manager_params=music_manager_params)
+
+        self.mongodb_manager: MongoDBManager = MongoDBManager(
+            mongodb_params=mongodb_params)
+        self.tracks_collection_name: str = mongodb_params.get(
+            "tracks_collection_name", default_value)
+        self.albums_collection_name: str = mongodb_params.get(
+            "albums_collection_name", default_value)
+        self.artists_collection_name: str = mongodb_params.get(
+            "artists_collection_name", default_value)
 
     def set_up_spotify_connection(self):
         self.music_manager.set_up_spotify_connection()
 
     def set_up_mongodb_connection(self):
-        self.mongo_manager.set_up_db()
+        self.mongodb_manager.set_up_db()
 
     def get_collections(self):
         return [self.tracks_collection_name,
@@ -91,7 +89,7 @@ class DataManager:
             filter_data: dict = {"id": entity.__getattribute__("id")}
 
             # 2. Find document
-            res_doc: Cursor = self.mongo_manager.find_document_by_filter(
+            res_doc: Cursor = self.mongodb_manager.find_document_by_filter(
                 collection_name=collection_name, filter=filter_data)
             not_exist: bool = True if len(list(res_doc)) == 0 else False
         except Exception as e:
@@ -128,7 +126,7 @@ class DataManager:
                     entity=entity,
                     collection_name=collection_name)
                 if not_exist:
-                    self.mongo_manager.insert_document_to_collection(
+                    self.mongodb_manager.insert_document_to_collection(
                         collection_name=collection_name,
                         document=entity.__dict__)
         except Exception as e:
@@ -140,7 +138,7 @@ class DataManager:
             for collection in collections:
                 logger.info("Exporting collection %s", collection)
                 # Generate Pandas DataFrame
-                df: pd.DataFrame = self.mongo_manager.generate_dataframe_from_collection(
+                df: pd.DataFrame = self.mongodb_manager.generate_dataframe_from_collection(
                     collection_name=collection,
                     query={},
                     no_id=no_id)

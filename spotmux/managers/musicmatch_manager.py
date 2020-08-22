@@ -2,7 +2,7 @@ from musixmatch import Musixmatch
 from ..helper.settings import logger
 
 
-class MusixmatchManager:
+class MusixmatchManager(object):
     def __init__(self, api_key: str):
         self.musixmatch: Musixmatch = Musixmatch(
             api_key)

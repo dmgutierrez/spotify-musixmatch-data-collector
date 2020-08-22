@@ -3,13 +3,16 @@ from .managers.data_manager import DataManager
 
 
 class SpotMux(object):
-    def __init__(self, countries: list, continent: str = None, categories: list = None,
+    def __init__(self, mongodb_params: dict, music_manager_params: dict,
+                 countries: list, continent: str = None, categories: list = None,
                  locale: str = "en_EN"):
         self.countries: list = countries
         self.categories: list = categories
         self.continent: str = continent
         self.locale: str = locale
-        self.data_collector: DataManager = DataManager()
+        self.data_collector: DataManager = DataManager(
+            mongodb_params=mongodb_params,
+            music_manager_params=music_manager_params)
 
     def set_up_collector(self):
         try:

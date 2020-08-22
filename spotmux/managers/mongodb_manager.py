@@ -8,22 +8,21 @@ from typing import Optional
 from ..helper.settings import logger
 
 
-class MongoDBManager:
-    def __init__(self, host: str, port: str, username: str = "", password: str = "",
-                 db_name: str = "default"):
+class MongoDBManager(object):
+    def __init__(self, mongodb_params: dict):
 
-        self.db_port: int = int(port)
-        self.db_host: str = host
-        self.username: str = username
-        self.password: str = password
-
-        self.db_url = ("mongodb://" + self.username + ":"+ self.password + "@" +
-                       self.db_host + ":" + str(self.db_port) + "/")
-
-        self.db_name: str = db_name
+        self.db_port: int = int(mongodb_params.get("port"))
+        self.db_host: str = mongodb_params.get("host")
+        self.username: str = mongodb_params.get("username", "")
+        self.password: str = mongodb_params.get("password", "")
+        self.db_name: str = mongodb_params.get("db_name")
+        self.db_url = self.build_mongodb_uri()
         self.db_client: Optional[MongoClient] = None
         self.db:  Optional[Database] = None
         self.status = 200
+
+    def build_mongodb_uri(self):
+        return f"mongodb://{self.username}:{self.password}@{self.db_host}:{str(self.db_port)}/"
 
     def establish_client_connection(self):
         try:

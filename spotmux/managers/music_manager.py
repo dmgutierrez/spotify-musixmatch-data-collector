@@ -1,25 +1,23 @@
 from ..managers.spotify_manager import SpotifyManager
 from ..managers.musicmatch_manager import MusixmatchManager
-from ..helper.settings import (logger, sp_client_id, sp_client_secret,
-                             sp_redirect_uri, sp_username, sp_scope,
-                             musixmatch_api_key)
+from ..helper.settings import logger
 from ..models.doument_models import (PlaylistDataDoc, SpotifyTrackDoc,
-                                   SpotifyAlbumDoc)
+                                     SpotifyAlbumDoc)
 from spotipy.oauth2 import SpotifyOauthError
 from collections import defaultdict
 
 
-class MusicManager:
-    def __init__(self):
+class MusicManager(object):
+    def __init__(self, music_manager_params: dict):
         self.spotify_manager: SpotifyManager = SpotifyManager(
-            sp_client_id=sp_client_id,
-            sp_client_secret=sp_client_secret,
-            sp_redirect_uri=sp_redirect_uri,
-            sp_username=sp_username,
-            sp_scope=sp_scope)
+            sp_client_id=music_manager_params.get("sp_client_id"),
+            sp_client_secret=music_manager_params.get("sp_client_secret"),
+            sp_redirect_uri=music_manager_params.get("sp_redirect_uri"),
+            sp_username=music_manager_params.get("sp_username"),
+            sp_scope=music_manager_params.get("sp_scope"))
 
         self.musixmatch_manager: MusixmatchManager = MusixmatchManager(
-            api_key=musixmatch_api_key)
+            api_key=music_manager_params.get("musixmatch_api_key"))
 
     def set_up_spotify_connection(self):
         self.spotify_manager.init_spotify_connector()

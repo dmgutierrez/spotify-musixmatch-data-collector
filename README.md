@@ -21,29 +21,21 @@ A Python library for retrieving information from both Spotify and MusixMatch reg
 
 ### Installation
 
-##### Setting up the project
-Set up all the paths and links of the module from your root directory.
+You can easily install the module via pip.
 
 ```sh
-$ pip install -e .
+$ pip install spotmux
 ```
 
-##### Install dependencies
-Install all the dependencies of the module.
-
-```sh
-$ pip install -r requirements.txt
-```
-
-##### Setting up environment variables
+##### Setting up relevant variables variables
 In order to run the module, you would need to create the following environment variables:
 Environment Variable | Description
 ------------ | -------------
-MONGODB_HOST | MongoDB host
-MONGODB_PORT | MongoDB port
-MONGODB_USERNAME | MongoDB username
-MONGODB_PASSWORD | MongoDB password
-MONGODB_DB_NAME | MongoDB database name
+HOST | MongoDB host
+PORT | MongoDB port
+USERNAME | MongoDB username
+PASSWORD | MongoDB password
+DB_NAME | MongoDB database name
 ALBUMS_COLLECTION_NAME | MongoDB albums collection name
 ARTISTS_COLLECTION_NAME | MongoDB artists collection name
 TRACKS_COLLECTION_NAME | MongoDB tracks collection name
@@ -55,31 +47,6 @@ SP_SCOPE | [Spotify API Authorization Scope](https://developer.spotify.com/docum
 MUSIXMATCH_API_KEY | Musixmatch API KEY 
 
 ### 3. How to use it
-##### Setting your environment variables
-Before working with the module, you will need to incorporate the aforementioned environment variables in your system. An example of how to proceed is provided below.
-
-```python
-import os
-
-# Set environment variables
-os.environ['MONGODB_HOST'] = 'localhost'
-os.environ['MONGODB_PORT'] = '27017'
-os.environ['MONGODB_USERNAME'] = ''
-os.environ['MONGODB_PASSWORD'] = ''
-os.environ['MONGODB_DB_NAME'] = 'test_data'
-os.environ['ALBUMS_COLLECTION_NAME'] = 'test_albums'
-os.environ['ARTISTS_COLLECTION_NAME'] = 'test_artists'
-os.environ['TRACKS_COLLECTION_NAME'] = 'test_tracks'
-
-os.environ['SP_CLIENT_ID'] = 'xxxx'
-os.environ['SP_CLIENT_SECRET'] = 'xxxx'
-os.environ['SP_USERNAME'] = 'xxxx'
-os.environ['SP_REDIRECT_URI'] = 'http://xxxx:xxxx/callback'
-os.environ['SP_SCOPE'] = 'playlist-modify-private'
-
-os.environ['MUSIXMATCH_API_KEY'] = 'xxxx'
-```
-
 ##### Retrieve information from a set of countries
 
 Retrieve information from a list of countries via [country code alpha-2](https://www.iban.com/country-codes). If the continent parameter is provided, the system will only query those countries from such continent which are available in Spotify according to this [Spotify market list](https://gist.github.com/wilsonpage/503092f6cd87f9152d5a523bb82ce730).
@@ -89,6 +56,20 @@ The data is directly stored in the different mongoDB collections according to th
 
 ```python
 from spotmux.spotmux import SpotMux
+
+default_value: str = "xxxx"
+mongodb_params: dict = {"host": "localhost", "port": "27017",
+                        "db_name": "test_db_spot",
+                        "tracks_collection_name": "test_tracks",
+                        "albums_collection_name": "test_albums",
+                        "artists_collection_name": "test_artists"}
+
+music_manager_params: dict = {"sp_client_id": default_value,
+                              "sp_client_secret": default_value,
+                              "sp_username": default_value,
+                              "sp_redirect_uri": default_value,
+                              "sp_scope": default_value,
+                              "musixmatch_api_key":default_value}
 
 # List of countries
 countries: list = ["GB", "DE"]
@@ -101,10 +82,12 @@ locale: str = "en_EN"
 
 # Create the object
 spotmux_obj: SpotMux = SpotMux(
+    mongodb_params=mongodb_params,
+    music_manager_params=music_manager_params,
     countries=countries,
     continent=continent,
     categories=categories)
-    
+
 # Initialise the object
 spotmux_obj.set_up_collector()
 

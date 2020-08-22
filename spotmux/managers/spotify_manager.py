@@ -9,7 +9,7 @@ from spotipy import Spotify
 from spotipy.client import SpotifyException
 from spotipy.oauth2 import SpotifyOAuth, SpotifyOauthError
 from ..models.doument_models import (SpotifyTrackDoc,
-                                   SpotifyAlbumDoc, SpotifyArtistDoc)
+                                     SpotifyAlbumDoc, SpotifyArtistDoc)
 from ..helper.settings import logger
 
 
