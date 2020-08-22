@@ -27,8 +27,8 @@ You can easily install the module via pip.
 $ pip install spotmux
 ```
 
-##### Setting up relevant variables variables
-In order to run the module, you would need to create the following environment variables:
+##### Setting up relevant variables
+In order to run the module, you would need to consider the following variables:
 Environment Variable | Description
 ------------ | -------------
 HOST | MongoDB host
@@ -100,9 +100,26 @@ Once you have finished your process, you can export your collections in differen
 
 ```python
 root_dir: str = "path/to/store/csv"
+default_value: str = "xxxx"
+mongodb_params: dict = {"host": "localhost", "port": "27017",
+                        "db_name": "test_db_spot",
+                        "tracks_collection_name": "test_tracks",
+                        "albums_collection_name": "test_albums",
+                        "artists_collection_name": "test_artists"}
+
+music_manager_params: dict = {"sp_client_id": default_value,
+                              "sp_client_secret": default_value,
+                              "sp_username": default_value,
+                              "sp_redirect_uri": default_value,
+                              "sp_scope": default_value,
+                              "musixmatch_api_key":default_value}
+
 
 # Create the object with default parameters
 spotmux_obj: SpotMux = SpotMux(
+    mongodb_params=mongodb_params,
+    music_manager_params=music_manager_params,
+    countries=countries,
     countries=[])
     
 # Initialise the object
@@ -117,7 +134,6 @@ spotmux_obj.export_collections_to_csv(root_directory=root_dir)
  - Write more documentation within the code
  - Generate docstrings
  - Generate Unitests
- - Publish library to be installed via Pip
 
 License
 ----
