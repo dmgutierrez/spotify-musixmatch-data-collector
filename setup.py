@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 name: str = "SpotMux"
-version: str = "1.0.2"
+version: str = "1.0.3"
 license: str = "MIT"
 author: str = "David Martin-Gutierrez"
 author_email: str = "dmargutierrez@gmail.com"
