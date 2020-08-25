@@ -16,17 +16,15 @@ class SpotifyTrackDoc(object):
         self.popularity: int = track.get('popularity')
         self.preview_url: str = track.get('preview_url')
         self.available_markets: list = track.get('available_markets', [])
-        self.continents: str = get_regions_by_markets(markets=self.available_markets)
+        self.continents: list = get_regions_by_markets(markets=self.available_markets)
         self.total_markets: int = len(self.available_markets) if self.available_markets else [country]
         self.disc_number: int = track.get('disc_number')
         self.duration_ms: int = track.get('duration_ms')
         self.href: str = track.get('href')
-        self.track_number = track.get('track_number')
-        self.artists_spotify_id = [art.get('id') for art in track.get('artists')]
-        self.album_spotify_id = track.get('album').get('id')
+        self.track_number: int = track.get('track_number')
+        self.artists_spotify_id: list = [art.get('id') for art in track.get('artists')]
+        self.album_spotify_id: str = track.get('album').get('id')
         self.playlist_name: str = playlist_name
-        self.has_audio_features: bool = False
-        self.has_text_features: bool = False
         self.category: str = category
         self.audio_features: dict = audio_features
         self.lyrics: str = lyrics if lyrics is not None else ""
@@ -37,7 +35,7 @@ class SpotifyAlbumDoc(object):
         self.album_type: str = album.get("album_type")
         self.artists_ids: list = [i.get('id') for i in album.get('artists')]
         self.available_markets: list = album.get("available_markets")
-        self.continents: str = get_regions_by_markets(markets=self.available_markets)
+        self.continents: list = get_regions_by_markets(markets=self.available_markets)
         self.total_markets: int = len(self.available_markets)
         self.copyrights: list = album.get("copyrights")
         self.external_urls: list = album.get("external_urls")
@@ -55,7 +53,7 @@ class SpotifyAlbumDoc(object):
 
 class SpotifyArtistDoc(object):
     def __init__(self, artist: dict):
-        self.followers: list = artist.get("followers").get("total")
+        self.followers: int = artist.get("followers").get("total")
         self.genres: list = artist.get("genres")
         self.href: str = artist.get("href")
         self.id: str = artist.get("id")

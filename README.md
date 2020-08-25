@@ -57,13 +57,18 @@ The data is directly stored in the different mongoDB collections according to th
 ```python
 from spotmux.spotmux import SpotMux
 
+# Fill out the parameters with your own ones
 default_value: str = "xxxx"
-mongodb_params: dict = {"host": "localhost", "port": "27017",
+mongodb_params: dict = {"host": "localhost",
+                        "port": "27017",
+                        "username": default_value,
+                        "password": default_value,
                         "db_name": "test_db_spot",
                         "tracks_collection_name": "test_tracks",
                         "albums_collection_name": "test_albums",
                         "artists_collection_name": "test_artists"}
 
+# Fill out the parameters with your own ones
 music_manager_params: dict = {"sp_client_id": default_value,
                               "sp_client_secret": default_value,
                               "sp_username": default_value,
@@ -101,7 +106,10 @@ Once you have finished your process, you can export your collections in differen
 ```python
 root_dir: str = "path/to/store/csv"
 default_value: str = "xxxx"
-mongodb_params: dict = {"host": "localhost", "port": "27017",
+mongodb_params: dict = {"host": "localhost",
+                        "port": "27017",
+                        "username": default_value,
+                        "password": default_value,
                         "db_name": "test_db_spot",
                         "tracks_collection_name": "test_tracks",
                         "albums_collection_name": "test_albums",
@@ -129,10 +137,71 @@ spotmux_obj.set_up_collector()
 spotmux_obj.export_collections_to_csv(root_directory=root_dir)
 ```
 
+### Data Models
+#### Tracks Data Model
+Attribute | Type | Description
+------------ | ------------- | ------------- 
+id | string | spotify track id
+name | string | spotify track name
+popularity | integer | spotify track popularity
+preview_url | string | spotify preview url
+available_markets | list | list of countries where the track is available
+continents | list | list of continents where the track is available
+total_markets | integer | total number of markers
+disc_number | integer | spotify disc number
+duration_ms | integer | track duration in ms
+href | string | spotify track href
+track_number | integer | spotify track number
+artists_spotify_id | list | list of artist ids
+album_spotify_id | string | album id
+playlist_name | string | spotify playlist name
+category | string | playlist category
+audio_features | dictionary | spotify pre-computed audio features
+lyrics | string | musixmatch lyrics
+
+For more information, you can consult the official Spotify Web API regarding Tracks at [Get a Track](https://developer.spotify.com/documentation/web-api/reference/tracks/get-track/). 
+
+#### Album Data Model
+Attribute | Type | Description
+------------ | ------------- | ------------- 
+album_type | string | spotify album type
+artists_ids | list | list of artists ids 
+available_markets | list | list of countries where the album is available
+continents | list | list of continents where the album is available
+total_markets | integer | total number of markers
+copyrights | string | spotify album copyrights
+external_urls | list | list of external URLs associated to the album
+genres | list | list of genres associate to the album
+href | string | spotify album href
+id | string | spotify album id
+images | list | list of images associated to an album
+label | string | Spotify album label
+name | string | Spotify Album name
+popularity | integer | spotify album popularity
+release_date | string | Spotify album release date
+tracks_ids | list | list of Spotify tracks ids
+uri | string | album spotify uri
+
+For more information, you can consult the official Spotify Web API regarding Albums at [Get an Album](https://developer.spotify.com/documentation/web-api/reference/albums/get-album/). 
+
+#### Artist Data Model
+Attribute | Type | Description
+------------ | ------------- | ------------- 
+id | string | spotify artist id
+name | string | spotify artist name
+popularity | integer | spotify artist popularity
+followers | integer | total number of followers in Spotify
+genres | list | list of Spotify genres associated to the artist
+href | string | spotify artist href
+images | list | list of images associated to the artist
+uri | string | artist spotify uri
+
+For more information, you can consult the official Spotify Web API regarding Artists at [Get an Artist](https://developer.spotify.com/documentation/web-api/reference/artists/get-artist/). 
+
 ### *TODOs*
 
  - Write more documentation within the code
- - Generate docstrings
+ - Include Elasticsearch Manager to be used instead of MongoDB
  - Generate Unitests
 
 License
