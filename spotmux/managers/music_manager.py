@@ -54,10 +54,8 @@ class MusicManager(object):
                     except SpotifyOauthError as oauthErr:
                         logger.warning(str(oauthErr))
                         self.spotify_manager.refresh_access_token()
-                        playlist_data_doc: PlaylistDataDoc = self.extract_data_from_spotify_playlist(
-                            playlist_id=playlist_id,
-                            market=market,
-                            category=category)
+                        continue
+
                     except Exception:
                         logger.warning('It was not possible to extract the information of the Track!')
                         continue
@@ -67,6 +65,13 @@ class MusicManager(object):
                     playlist_id=playlist_id,
                     market=market,
                     category=category)
+        except SpotifyOauthError as oauthErr:
+            logger.warning(str(oauthErr))
+            self.spotify_manager.refresh_access_token()
+            playlist_data_doc: PlaylistDataDoc = self.extract_data_from_spotify_playlist(
+                playlist_id=playlist_id,
+                market=market,
+                category=category)
         except Exception as e:
             logger.error(e)
         return playlist_data_doc

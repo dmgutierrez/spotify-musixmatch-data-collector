@@ -61,22 +61,28 @@ class DataManager(object):
             for i, data in enumerate(playlists_countries_data.items()):
                 logger.info("Processing Playlist %s/%s from country %s. Total countries %s",
                             i+1, total_playlists, data[1], total_countries)
-                playlist_id: str = data[0]
-                market: str = data[1][0]
-                category: str = data[1][1]
 
-                # 3. Retrieve playlist information
-                playlists_data_doc: PlaylistDataDoc = self.music_manager.extract_data_from_spotify_playlist(
-                    playlist_id=playlist_id,
-                    market=market,
-                    category=category)
+                try:
 
-                # 4. Start ingestion
-                collection_thread_names: dict = self.get_collection_thread_names()
-                self.start_asynchronous_ingestion(
-                    playlists_data_doc=playlists_data_doc,
-                    thread_names=list(collection_thread_names.values()),
-                    collection_names=list(collection_thread_names.keys()))
+                    playlist_id: str = data[0]
+                    market: str = data[1][0]
+                    category: str = data[1][1]
+
+                    # 3. Retrieve playlist information
+                    playlists_data_doc: PlaylistDataDoc = self.music_manager.extract_data_from_spotify_playlist(
+                        playlist_id=playlist_id,
+                        market=market,
+                        category=category)
+
+                    # 4. Start ingestion
+                    collection_thread_names: dict = self.get_collection_thread_names()
+                    self.start_asynchronous_ingestion(
+                        playlists_data_doc=playlists_data_doc,
+                        thread_names=list(collection_thread_names.values()),
+                        collection_names=list(collection_thread_names.keys()))
+                except Exception as erAuth:
+                    logger.warning(erAuth)
+                    self.music_manager.spotify_manager.refresh_access_token()
 
         except Exception as e:
             logger.error(e)

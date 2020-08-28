@@ -86,7 +86,7 @@ class SpotifyManager(object):
                     else:
                         done = -1
                     offset += limit
-                except Exception as e:
+                except SpotifyException as e:
                     logger.warning(e)
                     continue
         except Exception as e:
@@ -118,6 +118,7 @@ class SpotifyManager(object):
                     # Get Category ID
                     category_items: list = self.get_categories_items_by_country(
                         sp_api=sp_api, country=country, locale=locale, limit=limit)
+
                     # Get Playlists
                     country_playlists: list = []
                     category_ids: list = []
@@ -141,8 +142,9 @@ class SpotifyManager(object):
                                     done = False
                                 else:
                                     offset += limit
-                        except Exception as e:
+                        except SpotifyException as e:
                             logger.warning(e)
+                            self.refresh_access_token()
                             continue
 
                     # Save partial data into dictionary
@@ -227,6 +229,10 @@ class SpotifyManager(object):
                 self.refresh_access_token()
                 self.get_countries_playlists_ids_by_categories(
                     sp_api=sp_api, categories=categories, countries=countries, limit=limit)
+        except SpotifyException as oauthErr:
+            logger.warning(str(oauthErr))
+            self.get_countries_playlists_ids_by_categories(
+                sp_api=sp_api, categories=categories, countries=countries, limit=limit)
         except Exception as e:
             logger.error(e)
         return country_playlists_data
